@@ -5,8 +5,8 @@ from itertools import count
 
 class ReglaValidacion(ABC):
 
-    def __init__(self, longitu_esperada: int):
-        self._longitud_esperada: int = longitu_esperada
+    def __init__(self, longitud_esperada: int):
+        self._longitud_esperada: int = longitud_esperada
 
     @abstractmethod
     def es_valida(self):
@@ -37,3 +37,28 @@ class ReglaValidacion(ABC):
             if item.isdigit():
                 return True
         return False
+
+
+class ReglaValidacionGanimedes(ReglaValidacion):
+
+    def __init__(self, longitud_esperada: int):
+        super().__init__(longitud_esperada)
+
+
+    def contiene_caracter_especial(self, clave):
+        for item in clave:
+            if item == "@" or "_" or "#" or "$" or "%":
+                return True
+
+
+class ReglaValidacionCalisto(ReglaValidacion):
+
+    def __init__(self, longitud_esperada: int):
+        super().__init__(longitud_esperada)
+
+    def contiene_calisto(self):
+
+
+
+
+
