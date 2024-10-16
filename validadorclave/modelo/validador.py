@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from curses.ascii import isupper
 from itertools import count
 
 
@@ -12,18 +13,27 @@ class ReglaValidacion(ABC):
         pass
 
     def _validar_longitud(self, clave):
-        count = 0
+        count_1 = 0
         for i in clave:
-            count += 1
+            count_1 += 1
 
-        if count > self._longitud_esperada:
+        if count_1 > self._longitud_esperada:
             return True
 
-    def _contiene_mayuscula(self):
-        pass
+    def _contiene_mayuscula(self, clave):
+        for item in clave:
+            if item.isupper():
+                return True
+        return False
 
-    def _contiene_minuscula(self):
-        pass
+    def _contiene_minuscula(self, clave):
+        for item in clave:
+            if item.islower():
+                return True
+        return False
 
-    def _contiene_numero(self):
-        pass
+    def _contiene_numero(self, clave):
+        for item in clave:
+            if item.isdigit():
+                return True
+        return False
