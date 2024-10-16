@@ -48,6 +48,9 @@ class ReglaValidacionGanimedes(ReglaValidacion):
             if item == "@" or "_" or "#" or "$" or "%":
                 return True
 
+    def es_valida(self, clave: str):
+        ReglaValidacion._validar_longitud()
+
 
 class ReglaValidacionCalisto(ReglaValidacion):
 
@@ -65,6 +68,17 @@ class ReglaValidacionCalisto(ReglaValidacion):
                 return True
 
         return False
+
+
+class Validador:
+
+    def __init__(self, regla: ReglaValidacion):
+        self.regla: ReglaValidacion = regla
+
+    def es_valida(self, clave: str) -> bool:
+        return self.regla.es_valida(clave)
+
+
 
 
 
