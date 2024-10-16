@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from errores import *
 
 
 class ReglaValidacion(ABC):
@@ -41,8 +40,7 @@ class ReglaValidacion(ABC):
 class ReglaValidacionGanimedes(ReglaValidacion):
 
     def _init_(self, longitud_esperada):
-        super()._init_(longitud_esperada)
-
+        super()._init_(longitud_esperada=8)
 
     def contiene_caracter_especial(self, clave):
         counter = 0
@@ -57,15 +55,15 @@ class ReglaValidacionGanimedes(ReglaValidacion):
 
     def es_valida(self, clave):
         if not self._validar_longitud(clave):
-            raise NoCumpleLongitudMinimaError
+            raise ValueError("NoCumpleLongitudMinimaError")
         if not self._contiene_mayuscula(clave):
-            raise NoTieneLetraMayusculaError
+            raise ValueError("NoTieneLetraMayusculaError")
         if not self._contiene_minuscula(clave):
-            raise NoTieneLetraMinusculaError
+            raise ValueError("NoTieneLetraMinusculaError")
         if not self._contiene_numero(clave):
-            raise NoTieneNumeroError
+            raise ValueError("NoTieneNumeroError")
         if not self.contiene_caracter_especial(clave):
-            raise NoTieneCaracterEspecialError
+            raise ValueError("NoTieneCaracterEspecialError")
 
         return True
 
@@ -73,7 +71,7 @@ class ReglaValidacionGanimedes(ReglaValidacion):
 class ReglaValidacionCalisto(ReglaValidacion):
 
     def _init_(self, longitud_esperada):
-        super()._init_(longitud_esperada)
+        super()._init_(longitud_esperada=6)
 
     def contiene_calisto(self, clave):
         if "calisto" in clave.lower():
@@ -88,17 +86,22 @@ class ReglaValidacionCalisto(ReglaValidacion):
 
     def es_valida(self, clave):
         if not self._validar_longitud(clave):
-            raise NoCumpleLongitudMinimaError
+            raise ValueError("NoCumpleLongitudMinimaError")
         if not self._contiene_numero(clave):
-            raise NoTieneNumeroError
+            raise ValueError("NoTieneNumeroError")
         if not self.contiene_calisto(clave):
-            raise NoTienePalabraSecretaError
-
+            raise ValueError("NoTienePalabraSecretaError")
 
 class Validador:
 
     def _init_(self, regla: ReglaValidacion):
-        self.regla: ReglaValidacion = regla
+        self.regla = regla
 
     def es_valida(self, clave: str) -> bool:
         return self.regla.es_valida(clave)
+
+    def validar_calve(clave: str, reglas: list):
+        for regla in reglas:
+            validador = Validador(clave)
+            pass
+
