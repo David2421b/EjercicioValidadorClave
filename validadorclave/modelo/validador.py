@@ -1,6 +1,4 @@
 from abc import ABC, abstractmethod
-from curses.ascii import isupper
-from itertools import count
 
 
 class ReglaValidacion(ABC):
@@ -56,7 +54,17 @@ class ReglaValidacionCalisto(ReglaValidacion):
     def __init__(self, longitud_esperada: int):
         super().__init__(longitud_esperada)
 
-    def contiene_calisto(self):
+    def contiene_calisto(self, clave):
+        if "calisto" in clave.lower():
+            counter = 0
+            for item in clave:
+                if item in "CALISTO":
+                    counter += 1
+
+            if 2 <= counter < 7:
+                return True
+
+        return False
 
 
 
