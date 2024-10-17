@@ -1,2 +1,2 @@
-class validar_calve:
+def validar_calve(clave, list_rules):
     pass

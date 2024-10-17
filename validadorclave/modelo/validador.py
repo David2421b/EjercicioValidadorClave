@@ -11,11 +11,7 @@ class ReglaValidacion(ABC):
         pass
 
     def _validar_longitud(self, clave):
-        count_1 = 0
-        for i in clave:
-            count_1 += 1
-
-        if count_1 > self._longitud_esperada:
+        if len(clave) > self._longitud_esperada:
             return True
 
     def _contiene_mayuscula(self, clave):
@@ -39,19 +35,15 @@ class ReglaValidacion(ABC):
 
 class ReglaValidacionGanimedes(ReglaValidacion):
 
-    def _init_(self, longitud_esperada):
+    def _init_(self, longitud_esperada=8):
         super()._init_(longitud_esperada=8)
 
     def contiene_caracter_especial(self, clave):
-        counter = 0
-        for item in clave:
-            if item == "@" or "_" or "#" or "$" or "%":
-                counter += 1
-
-            if counter >= 1:
+        Especial = ("@_#$%")
+        for i in Especial:
+            if i in clave:
                 return True
-            else:
-                return False
+        return False
 
     def es_valida(self, clave):
         if not self._validar_longitud(clave):
@@ -70,7 +62,7 @@ class ReglaValidacionGanimedes(ReglaValidacion):
 
 class ReglaValidacionCalisto(ReglaValidacion):
 
-    def _init_(self, longitud_esperada):
+    def _init_(self, longitud_esperada=6):
         super()._init_(longitud_esperada=6)
 
     def contiene_calisto(self, clave):
@@ -98,7 +90,7 @@ class Validador:
         self.regla = regla
 
     def es_valida(self, clave: str) -> bool:
-        return self.regla.es_valida(clave)
+        return self.es_valida(clave)
 
     def validar_calve(clave: str, reglas: list):
         for regla in reglas:
