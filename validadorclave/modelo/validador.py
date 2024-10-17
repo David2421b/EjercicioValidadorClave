@@ -92,12 +92,4 @@ class Validador:
     def es_valida(self, clave: str) -> bool:
         return self.regla.es_valida(clave)
 
-    def validar_clave(clave: str, reglas: list):
-        for regla in reglas:
-            validador = Validador(regla)
-            try:
-                if validador.es_valida(clave):
-                    print(f"La clave es válida según la {regla.__class__.__name__}")
-            except ValueError as e:
-                print(f"Error: {regla.__class__.__name__}: {str(e)}")
 
