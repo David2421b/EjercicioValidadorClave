@@ -1,6 +1,5 @@
 from validadorclave.modelo.validador import Validador, ReglaValidacionGanimedes, ReglaValidacionCalisto
-from validadorclave.modelo.errores import NoCumpleLongitudMinimaError, NoTieneLetraMayusculaError, \
-    NoTieneLetraMinusculaError, NoTieneNumeroError, NoTieneCaracterEspecialError, NoTienePalabraSecretaError
+from validadorclave.modelo.errores import *
 
 
 def validar_clave(clave: str, reglas: list):
