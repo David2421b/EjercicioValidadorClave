@@ -1,9 +1,10 @@
 from abc import ABC, abstractmethod
+from validadorclave.modelo.errores import *
 
 
 class ReglaValidacion(ABC):
 
-    def _init_(self, longitud_esperada):
+    def __init__(self, longitud_esperada):
         self._longitud_esperada: int = longitud_esperada
 
     @abstractmethod
@@ -11,8 +12,7 @@ class ReglaValidacion(ABC):
         pass
 
     def _validar_longitud(self, clave):
-        if len(clave) > self._longitud_esperada:
-            return True
+        return len(clave) > self._longitud_esperada
 
     def _contiene_mayuscula(self, clave):
         for item in clave:
@@ -35,35 +35,35 @@ class ReglaValidacion(ABC):
 
 class ReglaValidacionGanimedes(ReglaValidacion):
 
-    def _init_(self, longitud_esperada=8):
-        super()._init_(longitud_esperada=8)
+    def __init__(self, longitud_esperada=8):
+        super().__init__(longitud_esperada)
 
     def contiene_caracter_especial(self, clave):
-        Especial = ("@_#$%")
-        for i in Especial:
+        especial = "@_#$%"
+        for i in especial:
             if i in clave:
                 return True
         return False
 
     def es_valida(self, clave):
         if not self._validar_longitud(clave):
-            raise ValueError("NoCumpleLongitudMinimaError")
+            raise NoCumpleLongitudMinimaError()
         if not self._contiene_mayuscula(clave):
-            raise ValueError("NoTieneLetraMayusculaError")
+            raise NoTieneLetraMayusculaError()
         if not self._contiene_minuscula(clave):
-            raise ValueError("NoTieneLetraMinusculaError")
+            raise NoTieneLetraMinusculaError()
         if not self._contiene_numero(clave):
-            raise ValueError("NoTieneNumeroError")
+            raise NoTieneNumeroError()
         if not self.contiene_caracter_especial(clave):
-            raise ValueError("NoTieneCaracterEspecialError")
+            raise NoTieneCaracterEspecialError()
 
         return True
 
 
 class ReglaValidacionCalisto(ReglaValidacion):
 
-    def _init_(self, longitud_esperada=6):
-        super()._init_(longitud_esperada=6)
+    def __init__(self, longitud_esperada=6):
+        super().__init__(longitud_esperada)
 
     def contiene_calisto(self, clave):
         if "calisto" in clave.lower():
@@ -78,22 +78,26 @@ class ReglaValidacionCalisto(ReglaValidacion):
 
     def es_valida(self, clave):
         if not self._validar_longitud(clave):
-            raise ValueError("NoCumpleLongitudMinimaError")
+            raise NoCumpleLongitudMinimaError()
         if not self._contiene_numero(clave):
-            raise ValueError("NoTieneNumeroError")
+            raise NoTieneNumeroError()
         if not self.contiene_calisto(clave):
-            raise ValueError("NoTienePalabraSecretaError")
+            raise NoTienePalabraSecretaError()
 
 class Validador:
 
-    def _init_(self, regla: ReglaValidacion):
+    def __init__(self, regla: ReglaValidacion):
         self.regla = regla
 
     def es_valida(self, clave: str) -> bool:
-        return self.es_valida(clave)
+        return self.regla.es_valida(clave)
 
-    def validar_calve(clave: str, reglas: list):
+    def validar_clave(clave: str, reglas: list):
         for regla in reglas:
-            validador = Validador(clave)
-            pass
+            validador = Validador(regla)
+            try:
+                if validador.es_valida(clave):
+                    print(f"La clave es válida según la {regla.__class__.__name__}")
+            except ValueError as e:
+                print(f"Error: {regla.__class__.__name__}: {str(e)}")
 
